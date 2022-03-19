@@ -1,0 +1,11 @@
+/sun-motion-visualization/dist
+/sun-motion-visualization/node_modules
+/Electron/css
+/Electron/img
+/Electron/js
+/Electron/node_modules
+/Electron/out
+/Electron/static
+/Electron/favicon.ico
+/Electron/index.html
+webpack.config.js
