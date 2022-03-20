@@ -2,6 +2,8 @@
 const earthRadius = 100
 // camera height above ground in groundView
 const hCamera = 0.05
+// Sun Rise/Set line above ground
+const hRiseSetLine = 0.15
 // sky sphere radius in skySphereView
 const skySphereRadius = 100
 
@@ -31,6 +33,7 @@ const labelHeight = 35
 export {
     earthRadius,
     hCamera,
+    hRiseSetLine,
     skySphereRadius,
     sunLightDistanceScale,
     sunTrackDistanceScale,

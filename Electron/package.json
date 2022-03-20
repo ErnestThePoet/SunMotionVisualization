@@ -1,6 +1,6 @@
 {
   "name": "sun-motion-visualization",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "A sun motion visualization project for high school geography teaching.",
   "main": "main.js",
   "scripts": {

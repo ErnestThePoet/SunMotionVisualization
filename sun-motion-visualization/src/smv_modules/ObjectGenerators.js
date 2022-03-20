@@ -1,7 +1,7 @@
 import * as THREE from "three"
 
 import { toRad,calculateSunPosition,calculateSunRiseSetPosition } from "./GeoMath"
-import { sunTrackDistanceScale, modelPath } from "./AppConstants"
+import { hRiseSetLine, sunTrackDistanceScale, modelPath } from "./AppConstants"
 
 function generateLatLine(earthRadius, latDeg, color, isDashed) {
     const curve = new THREE.EllipseCurve(
@@ -119,11 +119,11 @@ function generateSunTrackLine(latRad, solarAltituteDeg, addRiseSet = false, poin
         const riseSetPosition = calculateSunRiseSetPosition(latRad, solarAltituteDeg)
 
         const rsGeometry = new THREE.BufferGeometry().setFromPoints([
-            new THREE.Vector3(3, riseSetPosition[0], riseSetPosition[1]),
-            new THREE.Vector3(3, riseSetPosition[2], riseSetPosition[3])
+            new THREE.Vector3(hRiseSetLine, riseSetPosition[0], riseSetPosition[1]),
+            new THREE.Vector3(hRiseSetLine, riseSetPosition[2], riseSetPosition[3])
         ])
 
-        const rsMaterial = new THREE.LineDashedMaterial({ color: 0xff0000, dashSize: 15, gapSize: 10 })
+        const rsMaterial = new THREE.LineDashedMaterial({ color: 0xff0000, dashSize: 10, gapSize: 5 })
 
         trackLine.add(new THREE.Line(rsGeometry, rsMaterial).computeLineDistances())
     }

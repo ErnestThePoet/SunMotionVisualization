@@ -108,7 +108,7 @@ function switchGroundView(app) {
 
         app.orbitControlsOuter.enabled = true
 
-        app.sunLight.intensity = 0.5
+        app.sunLight.intensity = 0.6
         app.ambientLight.intensity = 0.5
 
         app.sunLight.children[0].visible = false

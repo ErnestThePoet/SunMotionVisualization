@@ -39,11 +39,11 @@ class SMVDragControls {
             camera.updateProjectionMatrix()
         })
 
-        domElement.addEventListener("pointerdown", e => {
+        domElement.addEventListener("pointerdown", () => {
             this._isMouseDown = true
         })
 
-        domElement.addEventListener("pointerup", e => {
+        domElement.addEventListener("pointerup", () => {
             this._isMouseDown = false
         })
 
