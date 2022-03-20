@@ -9,3 +9,4 @@
 /Electron/favicon.ico
 /Electron/index.html
 webpack.config.js
+*.docx
