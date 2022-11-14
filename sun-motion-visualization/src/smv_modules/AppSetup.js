@@ -88,7 +88,7 @@ function setUpWebGL(app) {
     const textureLoader = new THREE.TextureLoader()
 
     if (!isMobilePhoneBrowser()) {
-        app.sceneBackgroundTexture = textureLoader.load(modelPath + "starry.png")
+        app.sceneBackgroundTexture = textureLoader.load(modelPath + "starry.jpg")
         app.scene.background = app.sceneBackgroundTexture
     }
     else {
