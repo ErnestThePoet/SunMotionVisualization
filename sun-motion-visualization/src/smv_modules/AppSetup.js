@@ -9,6 +9,7 @@ import { generateLatData } from "./ObjectGenerators"
 import { SMVDragControls } from "./DragControls"
 import { toDeg, updateSprites } from "./GeoMath"
 import { changeToGroundView } from "./SceneControl"
+import { isMobilePhoneBrowser } from "./Utilities"
 
 function initWebGLData(app) {
     // WebGL Data should not be placed in data() section. this will cause errors
@@ -86,9 +87,13 @@ function setUpWebGL(app) {
 
     const textureLoader = new THREE.TextureLoader()
 
-    app.sceneBackgroundTexture = textureLoader.load(modelPath + "starry.png")
-
-    app.scene.background = app.sceneBackgroundTexture
+    if (!isMobilePhoneBrowser()) {
+        app.sceneBackgroundTexture = textureLoader.load(modelPath + "starry.png")
+        app.scene.background = app.sceneBackgroundTexture
+    }
+    else {
+        app.scene.background=new THREE.Color(0x000000)
+    }
 
     app.camera.name = "camera"
     app.camera.position.set(218, 0, -83)

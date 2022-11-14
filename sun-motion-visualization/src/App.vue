@@ -118,11 +118,23 @@
           </div>
         </div>
       </transition>
+
+      <img
+        class="img-about"
+        style="z-index: 50"
+        src="./uires/about.png"
+        @click.stop="showAbout"
+      />
     </div>
 
     <div
       class="d-flex flex-column align-items-center div-compass-wrapper"
-      style="z-index: 49"
+      :style="{
+        zIndex: 49,
+        transform: `${
+          isMobilePhoneBrowser ? 'scale(0.5) translate(140px,150px)' : ''
+        }`,
+      }"
     >
       <img
         src="./uires/comp_arrow.png"
@@ -167,13 +179,6 @@
         >
       </div>
     </div>
-
-    <img
-      class="img-about"
-      style="z-index: 50"
-      src="./uires/about.png"
-      @click.stop="showAbout"
-    />
 
     <div
       class="div-about-wrapper"
@@ -227,6 +232,7 @@ import * as ANIMATIONS from "./smv_modules/Animations";
 import "../node_modules/bootstrap/dist/css/bootstrap.css";
 
 import CompassWord from "./components/CompassWord.vue";
+import { isMobilePhoneBrowser } from "./smv_modules/Utilities";
 
 export default {
   name: "App",
@@ -254,6 +260,8 @@ export default {
       currentHeadingRad: 0,
 
       isAboutShow: false,
+
+      isMobilePhoneBrowser: isMobilePhoneBrowser(),
     };
   },
 
@@ -418,6 +426,9 @@ body {
 
   height: 100%;
   width: 250px;
+
+  overflow-y: auto;
+
   background-color: rgba(0, 0, 0, 0.3);
 
   padding-top: 35px;
@@ -511,9 +522,12 @@ body {
 }
 
 .img-about {
-  position: fixed;
-  bottom: 10px;
-  left: 10px;
+  margin-top: auto;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  
+  width: 32px;
+  height: 32px;
 
   cursor: pointer;
 
