@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build-web": "vue-cli-service build && xcopy /s /i /y \"./dist\" \"../doc\"",
+    "build-web": "vue-cli-service build && xcopy /s /i /y \"./dist\" \"../docs\"",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
