@@ -138,17 +138,13 @@ function setUpWebGL(app) {
     // Ground Plane
     const groundPlaneGeometry = new THREE.CircleGeometry(skySphereRadius, 100)
 
-    const detailTexture = textureLoader.load(modelPath + "detail.bmp")
+    const detailTexture = textureLoader.load(modelPath + "detail.jpg")
     detailTexture.wrapS = THREE.RepeatWrapping
     detailTexture.wrapT = THREE.RepeatWrapping
     detailTexture.repeat.set(textureRepeatCount, textureRepeatCount)
-    const detailBumpTexture = textureLoader.load(modelPath + "detailb.bmp")
-    detailBumpTexture.wrapS = THREE.RepeatWrapping
-    detailBumpTexture.wrapT = THREE.RepeatWrapping
-    detailBumpTexture.repeat.set(textureRepeatCount, textureRepeatCount)
+
     const groundMaterial = new THREE.MeshStandardMaterial({
         map: detailTexture,
-        bumpMap: detailBumpTexture,
         side: THREE.DoubleSide
     })
     groundMaterial.transparent = true
