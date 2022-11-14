@@ -13,7 +13,7 @@ const sunLightDistanceScale = 0.98
 const sunTrackDistanceScale = 1
 
 // static file path
-const modelPath = "./SunMotionVisualization/static/"
+const modelPath = "./static/"
 
 // orthographic camera horizontal size
 const cameraOuterHorizontalSize = 300
