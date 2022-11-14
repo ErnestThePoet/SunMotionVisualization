@@ -430,8 +430,6 @@ body {
   overflow-y: auto;
 
   background-color: rgba(0, 0, 0, 0.3);
-
-  padding-top: 35px;
 }
 
 .div-adjust {
