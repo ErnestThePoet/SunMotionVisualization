@@ -1,3 +1,5 @@
+import { isMobilePhoneBrowser } from "./Utilities"
+
 // earth model radius corresponding to the value set in 3dmax
 const earthRadius = 100
 // camera height above ground in groundView
@@ -16,7 +18,7 @@ const sunTrackDistanceScale = 1
 const modelPath = "./static/"
 
 // orthographic camera horizontal size
-const cameraOuterHorizontalSize = 300
+const cameraOuterHorizontalSize = isMobilePhoneBrowser()?150:300
 
 // local time autoplay interval in ms
 const autoPlayIntervalMs = 20

@@ -183,7 +183,7 @@
     <svg
       t="1668476563071"
       v-if="isControlsWrapperFolded"
-      class="svg-unfold-controls-wrapper"
+      class="svg-unfold"
       style="z-index: 50"
       @click.stop="unfoldControlsWrapper"
       viewBox="0 0 1024 1024"
@@ -258,7 +258,7 @@
       class="div-about-wrapper"
       style="z-index: 50"
     >
-      高中地理：太阳视运动可视化 ——献给我的母校山东省实验中学 (版本v3.2.2)<br />
+      高中地理：太阳视运动可视化 ——献给我的母校山东省实验中学 (版本v3.2.3)<br />
       软件作者：崔子健(Ernest Cui)<br />
       作者单位：哈尔滨工业大学计算学部<br />
       作者联系方式：ecuiships@126.com<br />
@@ -659,8 +659,9 @@ export default {
   }
 }
 
-.svg-unfold-controls-wrapper {
-  position: fixed;
+.svg-unfold {
+  // 理论上position应该设为fixed，但在手机微信浏览器上position:fixed的元素位置会随屏幕滑动而微小改变
+  position: absolute;
   bottom: 10px;
   left: 10px;
 
