@@ -1,4 +1,3 @@
-import * as $ from "jquery"
 import * as THREE from "three"
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
@@ -106,7 +105,7 @@ function setUpWebGL(app) {
 
     app.renderer.setSize(app.canvasWidth, app.canvasHeight)
 
-    $("body").append(app.renderer.domElement)
+    document.body.append(app.renderer.domElement)
 
     ///////////////////////// Model Loading /////////////////////////
 

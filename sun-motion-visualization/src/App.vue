@@ -3,6 +3,7 @@
   <div>
     <div
       class="d-flex flex-column div-controls-wrapper"
+      :class="{'div-controls-wrapper-folded':isControlsWrapperFolded}"
       style="z-index: 49"
       @dblclick.stop=""
     >
@@ -119,13 +120,25 @@
         </div>
       </transition>
 
-      <img
-        class="img-about"
-        style="z-index: 50"
-        src="./uires/about.png"
-        @click.stop="showAbout"
-      />
+      <div class="div-bottom-controls d-flex justify-content-between align-items-center">
+        <svg t="1668476575929" 
+        class="svg-hover-color svg-about" 
+        style="z-index: 50" 
+        @click.stop="showAbout" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6202" width="32" height="32" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M618 669.9c-89.6 77.4-62.5-58.4-58.4-77.4 4.1-19 62.4-135.8 19.7-155.4-42.8-19.7-174.5 77.4-174.5 77.4s-21.7 15.6-19.7 19.7c14.3 25.1 77.4-19.7 77.4-19.7s21.7-17.6 19.7 0c-19 76.5-32 154.3-38.7 232.8 9.5 51.6 91 29.9 154.8-38.7 63.8-68.5 19.7-38.7 19.7-38.7z m0 0" p-id="6203"></path><path d="M566 378c24.2 1.3 47.3-10.4 60.5-30.7 13.2-20.3 14.7-46.1 3.7-67.8-11-21.6-32.6-35.8-56.9-37.1-24.2-1.3-47.3 10.4-60.5 30.7-13.2 20.3-14.7 46.1-3.7 67.8 11 21.6 32.7 35.8 56.9 37.1z m0 0" p-id="6204"></path><path d="M884.8 853.9c87.3-93.3 135.9-216.4 135.8-344.2C1020.6 228.5 792.7 0.6 511.5 0.6 230.3 0.6 2.4 228.6 2.4 509.7c0 281.2 227.9 509.1 509.1 509.1h475.2c14.3 0.1 27.1-8.7 32.1-22 5-13.4 1.1-28.4-9.7-37.7L884.8 853.9zM511.5 951C267.8 951 70.2 753.4 70.2 509.7 70.2 266 267.7 68.5 511.4 68.5S952.6 266 952.6 509.7c0.4 122.1-50.3 238.8-139.8 321.8-7.1 7-10.7 16.8-9.9 26.7 0.8 9.9 5.9 19 14 24.9l80.8 67.9H511.5z m0 0" p-id="6205"></path></svg>
+
+        <svg t="1668476332112" 
+        class="svg-hover-color svg-fold-controls-wrapper" 
+        style="z-index: 50" 
+        @click.stop="foldControlsWrapper" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4229" width="32" height="32" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M176 513.7l392.73-395.44a32 32 0 0 0-45.41-45.1L108 491.3a32 32 0 0 0 0.16 45.25L523.48 949a32 32 0 1 0 45.1-45.41z" p-id="4230"></path><path d="M525.23 513.7L918 118.26a32 32 0 1 0-45.41-45.1L457.27 491.3a32 32 0 0 0 0.16 45.25L872.7 949a32 32 0 0 0 45.1-45.41z" p-id="4231"></path></svg>
+      </div>
     </div>
+
+    <svg t="1668476563071" 
+        v-if="isControlsWrapperFolded"
+        class="svg-hover-color svg-unfold-controls-wrapper" 
+        style="z-index: 50" 
+        @click.stop="unfoldControlsWrapper"
+        viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5207" width="32" height="32" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M44.4 245.9h935.2c24.4 0 44.4-20 44.4-44.4s-19.8-44.4-44.4-44.4H44.4C20 157.1 0 177.1 0 201.5s20 44.4 44.4 44.4z m935.2 221.8H44.4C20 467.7 0 487.7 0 512.1s20 44.4 44.4 44.4h935.2c24.4 0 44.4-20 44.4-44.4s-20-44.4-44.4-44.4z m0 310.4H44.4C20 778.1 0 797.8 0 822.5s20 44.4 44.4 44.4h935.2c24.4 0 44.4-19.8 44.4-44.4s-20-44.4-44.4-44.4z" p-id="5208"></path></svg>
 
     <div
       class="d-flex flex-column align-items-center div-compass-wrapper"
@@ -188,7 +201,7 @@
           'translate(-50%,-50%) scale(' + (isAboutShow ? '100%' : '0%') + ')',
       }"
     >
-      高中地理：太阳视运动可视化 ——献给我的母校山东省实验中学 (版本v3.1.0)<br />
+      高中地理：太阳视运动可视化 ——献给我的母校山东省实验中学 (版本v3.2.0)<br />
       软件作者：崔子健(Ernest Cui)<br />
       作者单位：哈尔滨工业大学计算学部<br />
       作者联系方式：ecuiships@126.com<br />
@@ -262,6 +275,8 @@ export default {
       isAboutShow: false,
 
       isMobilePhoneBrowser: isMobilePhoneBrowser(),
+
+      isControlsWrapperFolded:false
     };
   },
 
@@ -405,6 +420,12 @@ export default {
 
       ANIMATIONS.showAbout();
     },
+    foldControlsWrapper(){
+      this.isControlsWrapperFolded=true;
+    },
+    unfoldControlsWrapper(){
+      this.isControlsWrapperFolded=false;
+    }
   },
   components: {
     CompassWord,
@@ -424,12 +445,41 @@ body {
   left: 0;
   top: 0;
 
-  height: 100%;
+  height: 100vh;
   width: 250px;
 
   overflow-y: auto;
 
   background-color: rgba(0, 0, 0, 0.3);
+
+  transition-duration: 300ms;
+}
+
+.div-controls-wrapper::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+.div-controls-wrapper::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: rgb(145, 145, 145);
+}
+
+.div-controls-wrapper::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(160, 160, 160);
+}
+
+.div-controls-wrapper::-webkit-scrollbar-thumb:active {
+    background-color: rgb(175, 175, 175);
+}
+
+.div-controls-wrapper::-webkit-scrollbar-track {
+    background-color: rgba(220, 220, 220,0.2);
+    border-radius: 3px;
+}
+
+.div-controls-wrapper-folded{
+  transform: translateX(-100%);
 }
 
 .div-adjust {
@@ -519,26 +569,56 @@ body {
   transform: translate(-50%, 5px);
 }
 
-.img-about {
-  margin-top: auto;
-  margin-bottom: 10px;
-  margin-left: 10px;
-  
+.div-bottom-controls{
+  margin: auto 10px 10px;
+}
+
+.svg-about {
+  width: 27px;
+  height: 27px;
+
+  cursor: pointer;
+}
+
+.svg-fold-controls-wrapper {
+  width: 27px;
+  height: 27px;
+
+  cursor: pointer;
+}
+
+@keyframes svg-unfold-in{
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.svg-unfold-controls-wrapper {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+
   width: 32px;
   height: 32px;
 
   cursor: pointer;
 
+  animation-duration: 300ms;
+  animation-name: svg-unfold-in;
+}
+
+.svg-hover-color {
+  fill: #ccc;
   transition: 200ms;
   transition-timing-function: ease-in-out;
 }
 
-.img-about:hover {
-  transform: scale(110%);
-}
-
-.img-about:active {
-  transform: scale(102%);
+.svg-hover-color:hover {
+  fill: #fff;
 }
 
 .div-about-wrapper {
