@@ -5,7 +5,7 @@
       class="d-flex flex-column div-controls-wrapper"
       :class="{ 'div-controls-wrapper-folded': isControlsWrapperFolded }"
       style="z-index: 49"
-      @dblclick.stop=""
+      @dblclick.stop
     >
       <label class="lbl-common-text lbl-guide"
         >Tip :
@@ -253,11 +253,7 @@
       </div>
     </div>
 
-    <div
-      v-show="isAboutShow"
-      class="div-about-wrapper"
-      style="z-index: 50"
-    >
+    <div v-show="isAboutShow" class="div-about-wrapper" style="z-index: 50">
       高中地理：太阳视运动可视化 ——献给我的母校山东省实验中学 (版本v3.2.3)<br />
       软件作者：崔子健(Ernest Cui)<br />
       作者单位：哈尔滨工业大学计算学部<br />
@@ -268,8 +264,13 @@
       <br /><br />
       本项目以GPL-3.0许可证开源。开源仓库地址：
       <span>
-        <a href="https://github.com/ErnestThePoet/SunMotionVisualization" @click.stop>Github</a>
-        <a href="https://gitee.com/ecui/SunMotionVisualization" style="margin-left:0.6em" @click.stop>Gitee</a>
+        <a
+          href="https://github.com/ErnestThePoet/SunMotionVisualization"
+          @click.stop>Github</a>
+        <a
+          href="https://gitee.com/ecui/SunMotionVisualization"
+          style="margin-left: 0.6em"
+          @click.stop>Gitee</a>
       </span>
       <br />
       <br />
@@ -391,7 +392,11 @@ export default {
       return calculateCompassWordTranslates(this.currentHeadingRad);
     },
     currentHeadingRoundedDeg() {
-      return Math.round(toDeg(this.currentHeadingRad));
+      let headingRounded = Math.round(toDeg(this.currentHeadingRad));
+      if (headingRounded === 360) {
+        headingRounded = 0;
+      }
+      return headingRounded;
     },
     currentHeadingWord() {
       return getHeadingWord(this.currentHeadingRoundedDeg);
@@ -681,9 +686,9 @@ export default {
 
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
 
-  width: m#{i}n(768px,75vw);
+  width: m#{i}n(768px, 75vw);
   max-height: 75vh;
   overflow-y: auto;
 
