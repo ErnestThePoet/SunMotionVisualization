@@ -254,18 +254,16 @@
     </div>
 
     <div
+      v-show="isAboutShow"
       class="div-about-wrapper"
       style="z-index: 50"
-      :style="{
-        transform:
-          'translate(-50%,-50%) scale(' + (isAboutShow ? '100%' : '0%') + ')',
-      }"
     >
-      高中地理：太阳视运动可视化 ——献给我的母校山东省实验中学 (版本v3.2.1)<br />
+      高中地理：太阳视运动可视化 ——献给我的母校山东省实验中学 (版本v3.2.2)<br />
       软件作者：崔子健(Ernest Cui)<br />
       作者单位：哈尔滨工业大学计算学部<br />
       作者联系方式：ecuiships@126.com<br />
       开发时间：2022.03.04 - 2022.03.08<br />
+      H5版本上线时间：2022.11.14<br />
       项目简介：基于WebGL的太阳视运动可视化，可在地面或天球3D场景中自由观察太阳视运动轨迹，可选择任意观察纬度、动态调节太阳直射点纬度和地方时。项目使用真实距离比例和理想化数学模型，模拟准确度可满足高中地理教学的需要。
       <br /><br />
       本项目以GPL-3.0许可证开源。开源仓库地址：
@@ -682,6 +680,7 @@ export default {
 
   top: 50%;
   left: 50%;
+  transform: translate(-50%,-50%);
 
   width: m#{i}n(768px,75vw);
   max-height: 75vh;
