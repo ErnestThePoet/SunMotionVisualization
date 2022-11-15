@@ -3,7 +3,7 @@ import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import { Lensflare, LensflareElement } from "three/examples/jsm/objects/Lensflare"
 
-import { earthRadius, skySphereRadius, modelPath,cameraOuterHorizontalSize, textureRepeatCount } from "./AppConstants"
+import { earthRadius, skySphereRadius, modelPath, cameraOuterHorizontalSize, textureRepeatCount } from "./AppConstants"
 import { generateLatData } from "./ObjectGenerators"
 import { SMVDragControls } from "./DragControls"
 import { toDeg, updateSprites } from "./GeoMath"
@@ -86,12 +86,14 @@ function setUpWebGL(app) {
 
     const textureLoader = new THREE.TextureLoader()
 
+    app.sceneBackgroundColor = new THREE.Color(0x000000)
     if (!isMobilePhoneBrowser()) {
         app.sceneBackgroundTexture = textureLoader.load(modelPath + "starry.jpg")
         app.scene.background = app.sceneBackgroundTexture
     }
     else {
-        app.scene.background=new THREE.Color(0x000000)
+        // 手机屏幕竖屏时星空背景图片拉伸变形严重，因此直接使用黑色背景
+        app.scene.background = app.sceneBackgroundColor
     }
 
     app.camera.name = "camera"
@@ -171,27 +173,27 @@ function setUpWebGL(app) {
         dashSize: 6,
         gapSize: 4,
         transparent: true,
-        opacity:0.6
+        opacity: 0.6
     })
 
     app.skyCircleLine = new THREE.Line(skyCircleGeometry, skyCircleMaterial).computeLineDistances()
     app.skyCircleLine.rotation.x = Math.PI / 2
     app.skyCircleLine.visible = false
-    
+
     // current design is not to show this
     //app.scene.add(app.skyCircleLine)
 
     const skySphereUGeometry = new THREE.SphereGeometry(
         skySphereRadius,
         100, 100,
-        0, 2*Math.PI,
+        0, 2 * Math.PI,
         0, Math.PI / 2
     )
 
     const skySphereLGeometry = new THREE.SphereGeometry(
         skySphereRadius,
         100, 100,
-        0, 2*Math.PI,
+        0, 2 * Math.PI,
         0, Math.PI / 2
     )
 
@@ -367,4 +369,4 @@ function setUpWebGL(app) {
     })
 }
 
-export {initWebGLData,setUpWebGL}
+export { initWebGLData, setUpWebGL }

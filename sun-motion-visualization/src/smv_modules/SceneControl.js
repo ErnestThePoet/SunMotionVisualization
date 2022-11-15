@@ -76,7 +76,7 @@ function changeToGroundView(app) {
 
         app.isGroundControlsShow = true
         app.smvDragControls.enabled = true
-        app.scene.background = 0x000000
+        app.scene.background = app.sceneBackgroundColor
 
         app.sunLight.intensity = 1
         app.ambientLight.intensity = 0.35
