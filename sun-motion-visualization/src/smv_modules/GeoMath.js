@@ -43,9 +43,9 @@ function calculateSunPosition(latRad, timeMinutes, subSolarPointLatDeg) {
     const D = 23.48159662 // original value divided by scale 100000 to ensure precision
     const halfPi = Math.PI / 2
 
-    let sa = toRad(subSolarPointLatDeg)
-    let d = D * Math.cos(halfPi - sa)
-    let l = D * Math.sin(halfPi - sa)
+    let s = toRad(subSolarPointLatDeg)
+    let d = D * Math.cos(halfPi - s)
+    let l = D * Math.sin(halfPi - s)
     let cosAngle = Math.cos(Math.PI * timeMinutes / (24 * 30))
 
     let x = 0
