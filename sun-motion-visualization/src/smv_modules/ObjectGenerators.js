@@ -86,7 +86,7 @@ function generateLatData(earthRadius) {
         2.5, 1.75, 1.75, 2
     ]
 
-    for (let i in lats) {
+    for (const i in lats) {
         latGroup.add(generateLatLine(earthRadius, lats[i], colors[i], isDashed[i]))
         spriteGroup.add(generateLatSprite(latsForSprites[i], i, spriteTextureNames[i], 0, scaleXToYs[i]))
         spriteGroup.add(generateLatSprite(latsForSprites[i], i, spriteTextureNames[i], 1, scaleXToYs[i]))
@@ -99,7 +99,7 @@ function generateSunTrackLine(latRad, subSolarPointLatDeg, addRiseSet = false, p
 
     const points = []
     for (let i = 0; i < pointCount; i++) {
-        let timeMinutes = 24 * 60 * i / pointCount
+        const timeMinutes = 24 * 60 * i / pointCount
 
         const pointPosition = calculateSunPosition(latRad, timeMinutes, subSolarPointLatDeg)
 

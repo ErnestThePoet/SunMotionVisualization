@@ -15,15 +15,15 @@ function updateSprites(camera, sprites) {
         1.3, 1.25, 1.2, 1.2
     ]
 
-    for (let i of sprites) {
-        let camX = camera.position.x
-        let camZ = camera.position.z
+    for (const i of sprites) {
+        const camX = camera.position.x
+        const camZ = camera.position.z
 
-        let z0 = Math.sqrt((earthRadius ** 2 * camX ** 2) / (camX ** 2 + camZ ** 2))
+        const z0 = Math.sqrt((earthRadius ** 2 * camX ** 2) / (camX ** 2 + camZ ** 2))
 
-        let targetX = -Math.cos(i.smvLatRad) * z0 * camZ / camX
-        let targetZ = Math.cos(i.smvLatRad) * z0
-        let targetY = Math.sin(i.smvLatRad) * earthRadius
+        const targetX = -Math.cos(i.smvLatRad) * z0 * camZ / camX
+        const targetZ = Math.cos(i.smvLatRad) * z0
+        const targetY = Math.sin(i.smvLatRad) * earthRadius
 
         if (i.smvSide == 0) {
             i.position.x = targetX * posScales[i.smvLatType]
@@ -43,10 +43,10 @@ function calculateSunPosition(latRad, timeMinutes, subSolarPointLatDeg) {
     const D = 23.48159662 // original value divided by scale 100000 to ensure precision
     const halfPi = Math.PI / 2
 
-    let s = toRad(subSolarPointLatDeg)
-    let d = D * Math.cos(halfPi - s)
-    let l = D * Math.sin(halfPi - s)
-    let cosAngle = Math.cos(Math.PI * timeMinutes / (24 * 30))
+    const s = toRad(subSolarPointLatDeg)
+    const d = D * Math.cos(halfPi - s)
+    const l = D * Math.sin(halfPi - s)
+    const cosAngle = Math.cos(Math.PI * timeMinutes / (24 * 30))
 
     let x = 0
     let y = 0
@@ -71,20 +71,20 @@ function calculateSunPosition(latRad, timeMinutes, subSolarPointLatDeg) {
         z = isNoonOrMidnight(timeMinutes) ? 0 : Math.sqrt(l ** 2 - y ** 2)
     }
     else {
-        let deltaL = 0 - latRad
+        const deltaL = 0 - latRad
 
         let yc = Math.sqrt((d ** 2) / (Math.tan(deltaL) ** 2 + 1))
         if (subSolarPointLatDeg < 0) {
             yc = -yc
         }
 
-        let xc = -Math.tan(deltaL) * yc
+        const xc = -Math.tan(deltaL) * yc
 
-        let xk = -Math.sqrt((l ** 2 * yc ** 2) / (yc ** 2 + xc ** 2)) + xc
-        let yk = (xc - xk) * xc / yc + yc
+        const xk = -Math.sqrt((l ** 2 * yc ** 2) / (yc ** 2 + xc ** 2)) + xc
+        const yk = (xc - xk) * xc / yc + yc
 
-        let yLeft = yk - yc - yc * (xk - xc) / xc
-        let yRight = l ** 2 * cosAngle - yc ** 2 * (xk - xc) / xc + yc * (yk - yc)
+        const yLeft = yk - yc - yc * (xk - xc) / xc
+        const yRight = l ** 2 * cosAngle - yc ** 2 * (xk - xc) / xc + yc * (yk - yc)
 
         y = yRight / yLeft
         x = (yc - y) * yc / xc + xc
@@ -105,9 +105,9 @@ function calculateSunRiseSetPosition(latRad, subSolarPointLatDeg) {
     const D = 23.48159662 // original value divided by scale 100000 to ensure precision
     const halfPi = Math.PI / 2
 
-    let sa = toRad(subSolarPointLatDeg)
-    let d = D * Math.cos(halfPi - sa)
-    let l = D * Math.sin(halfPi - sa)
+    const s = toRad(subSolarPointLatDeg)
+    const d = D * Math.cos(halfPi - s)
+    const l = D * Math.sin(halfPi - s)
 
     let sunriseY = 0
     let sunriseZ = 0
@@ -119,14 +119,14 @@ function calculateSunRiseSetPosition(latRad, subSolarPointLatDeg) {
         && Math.abs(latRad + halfPi) > floatEps
         && Math.abs(latRad) < Math.abs(Math.PI / 2 - Math.abs(toRad(subSolarPointLatDeg)))) {
 
-        let deltaL = 0 - latRad
+        const deltaL = 0 - latRad
 
         let yc = Math.sqrt((d ** 2) / (Math.tan(deltaL) ** 2 + 1))
         if (subSolarPointLatDeg < 0) {
             yc = -yc
         }
 
-        let xc = -Math.tan(deltaL) * yc
+        const xc = -Math.tan(deltaL) * yc
 
         sunriseY = sunsetY = xc ** 2 / yc + yc
 
@@ -151,7 +151,7 @@ function isNoonOrMidnight(timeMinutes) {
 function calculateCompassWordTranslates(currentHeadingRad) {
     // all size in px
 
-    let translates = [
+    const translates = [
         {
             x: 0,
             y: 0
@@ -172,11 +172,13 @@ function calculateCompassWordTranslates(currentHeadingRad) {
 
     const rotationOffsetsRad = [0, Math.PI / 2, Math.PI, 3 * Math.PI / 2]
 
-    for (let i in translates) {
-        let targetRotationRad = rotationOffsetsRad[i] - currentHeadingRad
+    for (const i in translates) {
+        const targetRotationRad = rotationOffsetsRad[i] - currentHeadingRad
 
-        let targetTranslateX = wordCenterCircleRadius * Math.sin(targetRotationRad) + divSize / 2
-        let targetTranslateY = divSize / 2 - wordCenterCircleRadius * Math.cos(targetRotationRad)
+        let targetTranslateX =
+            wordCenterCircleRadius * Math.sin(targetRotationRad) + divSize / 2
+        let targetTranslateY =
+            divSize / 2 - wordCenterCircleRadius * Math.cos(targetRotationRad)
 
         targetTranslateX -= labelWidth / 2
         targetTranslateY -= labelHeight / 2

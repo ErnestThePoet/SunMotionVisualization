@@ -26,12 +26,12 @@ function getHeadingWord(currentHeadingRoundedDeg) {
 }
 
 function convertToLocalTime(timeMinutes) {
-    let hourDecimal = timeMinutes / 60
+    const hourDecimal = timeMinutes / 60
 
-    let hour = parseInt(hourDecimal)
-    let minute = Math.round(60 * (hourDecimal - hour))
+    const hour = parseInt(hourDecimal)
+    const minute = Math.round(60 * (hourDecimal - hour))
 
-    let minuteZeroed = minute < 10 ? `0${minute}` : `${minute}`
+    const minuteZeroed = minute < 10 ? `0${minute}` : `${minute}`
 
     return `${hour}:${minuteZeroed}`
 }

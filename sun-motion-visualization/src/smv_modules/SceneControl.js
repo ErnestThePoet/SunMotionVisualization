@@ -267,7 +267,7 @@ function updateSunPosition(app,latRad, timeMinutes, subSolarPointLatDeg) {
         calculatedSunPosition[2] * sunTrackDistanceScale
     )
 
-    let angleWithNormalRad = Math.acos(
+    const angleWithNormalRad = Math.acos(
         calculatedSunPosition[0] / Math.sqrt(
             calculatedSunPosition[0] ** 2
             + calculatedSunPosition[1] ** 2

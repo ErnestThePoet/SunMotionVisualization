@@ -290,7 +290,7 @@ function setUpWebGL(app) {
 
         const delta = app.clock.getDelta()
 
-        for (let i of app.mixers) {
+        for (const i of app.mixers) {
             i.update(delta)
         }
 
@@ -329,7 +329,7 @@ function setUpWebGL(app) {
         if (app.earthMesh) {
             const intersects = app.rayCaster.intersectObjects(app.earthMesh.children, false)
             if (intersects.length > 0) {
-                let latRad = Math.asin(intersects[0].point.y / earthRadius)
+                const latRad = Math.asin(intersects[0].point.y / earthRadius)
 
                 app.latDegFixed1 = parseFloat(toDeg(latRad).toFixed(1))
 
@@ -356,7 +356,7 @@ function setUpWebGL(app) {
         }
 
         if (app.isSkySphereView) {
-            let angleRad =
+            const angleRad =
                 Math.acos(
                     -app.cameraOuter.position.x
                     / Math.sqrt(
