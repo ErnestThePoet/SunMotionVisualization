@@ -17,7 +17,7 @@ function changeToGroundView(app) {
 
     app.groundPlaneMesh.visible=true
 
-    updateSunPosition(app,app.latRad, app.timeMinutes, app.solarAltituteDeg)
+    updateSunPosition(app,app.latRad, app.timeMinutes, app.subSolarPointLatDeg)
 
     // save current camera state
     app.previousCameraZoom = app.cameraOuter.zoom
@@ -65,7 +65,7 @@ function changeToGroundView(app) {
         app.camera.setRotationFromQuaternion(cameraCopy.quaternion)
         app.camera.updateProjectionMatrix()
 
-        app.sunTrackLineGroup.children[0] = generateSunTrackLine(app.latRad, app.solarAltituteDeg)
+        app.sunTrackLineGroup.children[0] = generateSunTrackLine(app.latRad, app.subSolarPointLatDeg)
         app.sunTrackLineGroup.visible = true
 
         app.earthMesh.visible = false
@@ -143,7 +143,7 @@ function switchGroundView(app) {
     app.isSkySphereView = !app.isSkySphereView
 
     app.sunTrackLineGroup.children[0] =
-        generateSunTrackLine(app.latRad, app.solarAltituteDeg, app.isSkySphereView)
+        generateSunTrackLine(app.latRad, app.subSolarPointLatDeg, app.isSkySphereView)
     app.sunTrackLineGroup.children[0].rotation.z = app.isSkySphereView ? Math.PI / 2 : 0
 }
 
@@ -251,9 +251,9 @@ function exitGroundView(app) {
     ANIMATIONS.hideCompass(1, () => { app.currentHeadingRad = 0 })
 }
 
-function updateSunPosition(app,latRad, timeMinutes, solarAltituteDeg) {
+function updateSunPosition(app,latRad, timeMinutes, subSolarPointLatDeg) {
     const calculatedSunPosition =
-        calculateSunPosition(latRad, timeMinutes, solarAltituteDeg)
+        calculateSunPosition(latRad, timeMinutes, subSolarPointLatDeg)
 
     app.sunLight.position.set(
         calculatedSunPosition[0] * sunLightDistanceScale,

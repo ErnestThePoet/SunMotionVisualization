@@ -95,13 +95,13 @@ function generateLatData(earthRadius) {
     return new THREE.Group().add(latGroup, spriteGroup)
 }
 
-function generateSunTrackLine(latRad, solarAltituteDeg, addRiseSet = false, pointCount = 100, lineColor = 0xffffff) {
+function generateSunTrackLine(latRad, subSolarPointLatDeg, addRiseSet = false, pointCount = 100, lineColor = 0xffffff) {
 
     const points = []
     for (let i = 0; i < pointCount; i++) {
         let timeMinutes = 24 * 60 * i / pointCount
 
-        const pointPosition = calculateSunPosition(latRad, timeMinutes, solarAltituteDeg)
+        const pointPosition = calculateSunPosition(latRad, timeMinutes, subSolarPointLatDeg)
 
         points.push(
             new THREE.Vector3(
@@ -116,7 +116,7 @@ function generateSunTrackLine(latRad, solarAltituteDeg, addRiseSet = false, poin
     const trackLine = new THREE.LineLoop(geometry, material)
 
     if (addRiseSet) {
-        const riseSetPosition = calculateSunRiseSetPosition(latRad, solarAltituteDeg)
+        const riseSetPosition = calculateSunRiseSetPosition(latRad, subSolarPointLatDeg)
 
         const rsGeometry = new THREE.BufferGeometry().setFromPoints([
             new THREE.Vector3(hRiseSetLine, riseSetPosition[0], riseSetPosition[1]),

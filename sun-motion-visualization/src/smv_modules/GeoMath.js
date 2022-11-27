@@ -38,12 +38,12 @@ function updateSprites(camera, sprites) {
     }
 }
 
-function calculateSunPosition(latRad, timeMinutes, solarAltituteDeg) {
+function calculateSunPosition(latRad, timeMinutes, subSolarPointLatDeg) {
     const floatEps = 0.0001
     const D = 23.48159662 // original value divided by scale 100000 to ensure precision
     const halfPi = Math.PI / 2
 
-    let sa = toRad(solarAltituteDeg)
+    let sa = toRad(subSolarPointLatDeg)
     let d = D * Math.cos(halfPi - sa)
     let l = D * Math.sin(halfPi - sa)
     let cosAngle = Math.cos(Math.PI * timeMinutes / (24 * 30))
@@ -74,7 +74,7 @@ function calculateSunPosition(latRad, timeMinutes, solarAltituteDeg) {
         let deltaL = 0 - latRad
 
         let yc = Math.sqrt((d ** 2) / (Math.tan(deltaL) ** 2 + 1))
-        if (solarAltituteDeg < 0) {
+        if (subSolarPointLatDeg < 0) {
             yc = -yc
         }
 
@@ -100,12 +100,12 @@ function calculateSunPosition(latRad, timeMinutes, solarAltituteDeg) {
 
 }
 
-function calculateSunRiseSetPosition(latRad, solarAltituteDeg) {
+function calculateSunRiseSetPosition(latRad, subSolarPointLatDeg) {
     const floatEps = 0.0001
     const D = 23.48159662 // original value divided by scale 100000 to ensure precision
     const halfPi = Math.PI / 2
 
-    let sa = toRad(solarAltituteDeg)
+    let sa = toRad(subSolarPointLatDeg)
     let d = D * Math.cos(halfPi - sa)
     let l = D * Math.sin(halfPi - sa)
 
@@ -117,12 +117,12 @@ function calculateSunRiseSetPosition(latRad, solarAltituteDeg) {
 
     if (Math.abs(latRad - halfPi) > floatEps
         && Math.abs(latRad + halfPi) > floatEps
-        && Math.abs(latRad) < Math.abs(Math.PI / 2 - Math.abs(toRad(solarAltituteDeg)))) {
+        && Math.abs(latRad) < Math.abs(Math.PI / 2 - Math.abs(toRad(subSolarPointLatDeg)))) {
 
         let deltaL = 0 - latRad
 
         let yc = Math.sqrt((d ** 2) / (Math.tan(deltaL) ** 2 + 1))
-        if (solarAltituteDeg < 0) {
+        if (subSolarPointLatDeg < 0) {
             yc = -yc
         }
 

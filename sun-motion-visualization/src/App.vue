@@ -50,8 +50,8 @@
           <div class="div-common-control-block">
             <label class="lbl-common-text">太阳直射点纬度：</label>
             <label class="lbl-data-display"
-              >{{ Math.abs(solarAltituteDeg) }}°{{
-                solarAltituteDeg > 0 ? "N" : solarAltituteDeg == 0 ? "" : "S"
+              >{{ Math.abs(subSolarPointLatDeg) }}°{{
+                subSolarPointLatDeg > 0 ? "N" : subSolarPointLatDeg == 0 ? "" : "S"
               }}</label
             >
             <input
@@ -60,12 +60,12 @@
               min="-23.5"
               max="23.5"
               step="0.1"
-              v-model.number="solarAltituteDeg"
+              v-model.number="subSolarPointLatDeg"
             />
 
             <div class="d-flex flex-row justify-content-between">
-              <div class="div-adjust" @click="adjSolarAltituteDeg(0)">←</div>
-              <div class="div-adjust" @click="adjSolarAltituteDeg(1)">→</div>
+              <div class="div-adjust" @click="adjSubSolarPointLatDeg(0)">←</div>
+              <div class="div-adjust" @click="adjSubSolarPointLatDeg(1)">→</div>
             </div>
           </div>
 
@@ -316,7 +316,7 @@ export default {
       latDegFixed1: 36.7,
       latRad: 0.6399541,
 
-      solarAltituteDeg: 15,
+      subSolarPointLatDeg: 15,
       // time of the day in minutes
       timeMinutes: 510,
 
@@ -347,7 +347,7 @@ export default {
       this,
       this.latRad,
       this.timeMinutes,
-      this.solarAltituteDeg
+      this.subSolarPointLatDeg
     );
 
     window.onclick = () => {
@@ -382,7 +382,7 @@ export default {
       return convertToLocalTime(this.timeMinutes);
     },
     sunPositionParams() {
-      return [this.latRad, this.timeMinutes, this.solarAltituteDeg];
+      return [this.latRad, this.timeMinutes, this.subSolarPointLatDeg];
     },
     compassRotationRad() {
       return -this.currentHeadingRad;
@@ -420,19 +420,19 @@ export default {
         );
       }
     },
-    adjSolarAltituteDeg(mode) {
+    adjSubSolarPointLatDeg(mode) {
       if (mode == 0) {
-        this.solarAltituteDeg = parseFloat(
-          (this.solarAltituteDeg - 0.1 < -23.5
+        this.subSolarPointLatDeg = parseFloat(
+          (this.subSolarPointLatDeg - 0.1 < -23.5
             ? -23.5
-            : this.solarAltituteDeg - 0.1
+            : this.subSolarPointLatDeg - 0.1
           ).toFixed(1)
         );
       } else {
-        this.solarAltituteDeg = parseFloat(
-          (this.solarAltituteDeg + 0.1 > 23.5
+        this.subSolarPointLatDeg = parseFloat(
+          (this.subSolarPointLatDeg + 0.1 > 23.5
             ? 23.5
-            : this.solarAltituteDeg + 0.1
+            : this.subSolarPointLatDeg + 0.1
           ).toFixed(1)
         );
       }
