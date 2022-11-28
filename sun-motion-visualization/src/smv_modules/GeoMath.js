@@ -85,10 +85,10 @@ function calculateSunPosition(latRad, timeMinutes, subSolarPointLatDeg) {
         const xk = -Math.sqrt((l ** 2 * yc ** 2) / (yc ** 2 + xc ** 2)) + xc
         const yk = (xc - xk) * xc / yc + yc
 
-        const yLeft = yk - yc - yc * (xk - xc) / xc
-        const yRight = l ** 2 * cosAngle - yc ** 2 * (xk - xc) / xc + yc * (yk - yc)
+        // const yLeft = yk - yc - yc * (xk - xc) / xc
+        // const yRight = l ** 2 * cosAngle - yc ** 2 * (xk - xc) / xc + yc * (yk - yc)
 
-        y = yRight / yLeft
+        y = (l ** 2 * xc * cosAngle) / (xc * yk - xk * yc) + yc
         x = (yc - y) * yc / xc + xc
         z = isNoonOrMidnight(timeMinutes)
             ? 0
