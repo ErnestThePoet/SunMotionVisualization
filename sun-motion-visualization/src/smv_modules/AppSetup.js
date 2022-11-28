@@ -3,10 +3,17 @@ import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import { Lensflare, LensflareElement } from "three/examples/jsm/objects/Lensflare"
 
-import { earthRadius, skySphereRadius, modelPath, cameraOuterHorizontalSize, textureRepeatCount } from "./AppConstants"
+import {
+    earthRadius,
+    skySphereRadius,
+    modelPath,
+    cameraOuterHorizontalSize,
+    textureRepeatCount
+} from "./AppConstants"
 import { generateLatData } from "./ObjectGenerators"
 import { SMVDragControls } from "./DragControls"
-import { toDeg, updateSprites } from "./GeoMath"
+import { updateSprites } from "./GeoMath"
+import { toDeg } from "./CommonMath"
 import { changeToGroundView } from "./SceneControl"
 import { isMobilePhoneBrowser } from "./Utilities"
 
@@ -71,7 +78,8 @@ function setUpWebGL(app) {
 
     app.scene = new THREE.Scene()
 
-    app.camera = new THREE.PerspectiveCamera(60, app.canvasWidth / app.canvasHeight, 0.01, 10000)
+    app.camera = new THREE.PerspectiveCamera(
+        60, app.canvasWidth / app.canvasHeight, 0.01, 10000)
 
     app.cameraOuter = new THREE.OrthographicCamera(
         -cameraOuterHorizontalSize,
@@ -166,8 +174,10 @@ function setUpWebGL(app) {
     app.scene.add(app.littleSunMesh)
 
     // Sky Circle and Sky Sphere
-    const skyCircleCurve = new THREE.EllipseCurve(0, 0, skySphereRadius, skySphereRadius)
-    const skyCircleGeometry = new THREE.BufferGeometry().setFromPoints(skyCircleCurve.getPoints(100))
+    const skyCircleCurve = new THREE.EllipseCurve(
+        0, 0, skySphereRadius, skySphereRadius)
+    const skyCircleGeometry = new THREE.BufferGeometry()
+        .setFromPoints(skyCircleCurve.getPoints(100))
     const skyCircleMaterial = new THREE.LineDashedMaterial({
         color: 0xff8c00,
         dashSize: 6,
@@ -176,7 +186,8 @@ function setUpWebGL(app) {
         opacity: 0.6
     })
 
-    app.skyCircleLine = new THREE.Line(skyCircleGeometry, skyCircleMaterial).computeLineDistances()
+    app.skyCircleLine = new THREE.Line(skyCircleGeometry, skyCircleMaterial)
+        .computeLineDistances()
     app.skyCircleLine.rotation.x = Math.PI / 2
     app.skyCircleLine.visible = false
 
@@ -244,7 +255,8 @@ function setUpWebGL(app) {
     const textureFlare3 = textureLoader.load(modelPath + "lf1.png")
 
     const lensflare = new Lensflare()
-    lensflare.addElement(new LensflareElement(textureFlare0, 700, 0, app.sunLight.color))
+    lensflare.addElement(new LensflareElement(
+        textureFlare0, 700, 0, app.sunLight.color))
     lensflare.addElement(new LensflareElement(textureFlare3, 60, 0.6))
     lensflare.addElement(new LensflareElement(textureFlare3, 70, 0.7))
     lensflare.addElement(new LensflareElement(textureFlare3, 120, 0.9))
@@ -258,13 +270,15 @@ function setUpWebGL(app) {
 
     ///////////////////////// Control Setup /////////////////////////
 
-    app.orbitControlsOuter = new OrbitControls(app.cameraOuter, app.renderer.domElement)
+    app.orbitControlsOuter = new OrbitControls(
+        app.cameraOuter, app.renderer.domElement)
     app.orbitControlsOuter.enableDamping = true // an animation loop is required when either damping or auto-rotation are enabled
     app.orbitControlsOuter.dampingFactor = 0.05
     app.orbitControlsOuter.minZoom = 0.7350918906249998
     app.orbitControlsOuter.maxZoom = 4.658990676380596
 
-    app.smvDragControls = new SMVDragControls(app.camera, app.renderer.domElement)
+    app.smvDragControls = new SMVDragControls(
+        app.camera, app.renderer.domElement)
     app.smvDragControls.enabled = false
     app.smvDragControls.onHeadingChange = headingRad => {
         app.currentHeadingRad = headingRad
@@ -294,8 +308,11 @@ function setUpWebGL(app) {
             i.update(delta)
         }
 
-        app.renderer.render(app.scene, !app.isGroundView || app.isSkySphereView ? app.cameraOuter : app.camera)
-
+        app.renderer.render(
+            app.scene,
+            !app.isGroundView || app.isSkySphereView
+                ? app.cameraOuter
+                : app.camera)
     }
 
     animate()
@@ -310,8 +327,10 @@ function setUpWebGL(app) {
         app.camera.aspect = app.canvasWidth / app.canvasHeight
         app.camera.updateProjectionMatrix()
 
-        app.cameraOuter.top = cameraOuterHorizontalSize * app.canvasHeight / app.canvasWidth
-        app.cameraOuter.bottom = -cameraOuterHorizontalSize * app.canvasHeight / app.canvasWidth
+        app.cameraOuter.top =
+            cameraOuterHorizontalSize * app.canvasHeight / app.canvasWidth
+        app.cameraOuter.bottom =
+            -cameraOuterHorizontalSize * app.canvasHeight / app.canvasWidth
         app.cameraOuter.updateProjectionMatrix()
     }
 
@@ -327,13 +346,15 @@ function setUpWebGL(app) {
         app.rayCaster.setFromCamera(app.mousePointer, app.cameraOuter)
 
         if (app.earthMesh) {
-            const intersects = app.rayCaster.intersectObjects(app.earthMesh.children, false)
+            const intersects = app.rayCaster.intersectObjects(
+                app.earthMesh.children, false)
             if (intersects.length > 0) {
                 const latRad = Math.asin(intersects[0].point.y / earthRadius)
 
                 app.latDegFixed1 = parseFloat(toDeg(latRad).toFixed(1))
 
-                // overwrite the fixed value updated by the watch function with the precise value
+                // overwrite the fixed value updated by the watch function 
+                // with the precise value
                 app.latRad = latRad
 
                 app.isMouseOnEarth = true
@@ -364,7 +385,9 @@ function setUpWebGL(app) {
                         + app.cameraOuter.position.z ** 2))
 
             app.currentHeadingRad =
-                app.cameraOuter.position.z > 0 ? (Math.PI - angleRad) : (Math.PI + angleRad)
+                app.cameraOuter.position.z > 0
+                ? (Math.PI - angleRad)
+                : (Math.PI + angleRad)
         }
     })
 }

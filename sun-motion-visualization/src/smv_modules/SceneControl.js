@@ -1,7 +1,14 @@
 import * as THREE from "three"
 
-import { hCamera,sunLightDistanceScale,sunTrackDistanceScale } from "./AppConstants"
-import { calculateSunPosition, toDeg } from "./GeoMath"
+import {
+    hCamera,
+    sunLightDistanceScale,
+    sunTrackDistanceScale
+} from "./AppConstants"
+import {
+    calculateSunPosition
+} from "./GeoMath"
+import { toDeg } from "./CommonMath"
 import { generateSunTrackLine } from "./ObjectGenerators"
 import * as ANIMATIONS from "./Animations"
 
@@ -28,8 +35,14 @@ function changeToGroundView(app) {
     const cameraPositionTrack = new THREE.VectorKeyframeTrack(
         "camera.position",
         [0, 1],
-        [app.cameraOuter.position.x, app.cameraOuter.position.y, app.cameraOuter.position.z,
-            hCamera, 0, 0],
+        [
+            app.cameraOuter.position.x,
+            app.cameraOuter.position.y,
+            app.cameraOuter.position.z,
+            hCamera,
+            0,
+            0
+        ],
         THREE.InterpolateSmooth)
 
     // in particular, we calculate the quaternion (for lookAt) with a camera hijack.
@@ -51,7 +64,8 @@ function changeToGroundView(app) {
     )
 
     const cameraClip =
-        new THREE.AnimationClip("clip-camera", 1, [cameraPositionTrack, cameraQuaternionTrack])
+        new THREE.AnimationClip(
+            "clip-camera", 1, [cameraPositionTrack, cameraQuaternionTrack])
 
     const mixerCamera = new THREE.AnimationMixer(app.camera)
 
@@ -65,7 +79,8 @@ function changeToGroundView(app) {
         app.camera.setRotationFromQuaternion(cameraCopy.quaternion)
         app.camera.updateProjectionMatrix()
 
-        app.sunTrackLineGroup.children[0] = generateSunTrackLine(app.latRad, app.subSolarPointLatDeg)
+        app.sunTrackLineGroup.children[0] = generateSunTrackLine(
+            app.latRad, app.subSolarPointLatDeg)
         app.sunTrackLineGroup.visible = true
 
         app.earthMesh.visible = false
@@ -142,9 +157,10 @@ function switchGroundView(app) {
 
     app.isSkySphereView = !app.isSkySphereView
 
-    app.sunTrackLineGroup.children[0] =
-        generateSunTrackLine(app.latRad, app.subSolarPointLatDeg, app.isSkySphereView)
-    app.sunTrackLineGroup.children[0].rotation.z = app.isSkySphereView ? Math.PI / 2 : 0
+    app.sunTrackLineGroup.children[0] = generateSunTrackLine(
+        app.latRad, app.subSolarPointLatDeg, app.isSkySphereView)
+    app.sunTrackLineGroup.children[0].rotation.z =
+        app.isSkySphereView ? Math.PI / 2 : 0
 }
 
 function exitGroundView(app) {
@@ -170,7 +186,8 @@ function exitGroundView(app) {
         app.groundPlaneMesh.visible=false
     }
     else {
-        ANIMATIONS.hideGroundPlane(app.groundPlaneMesh.material,() => {
+        ANIMATIONS.hideGroundPlane(app.groundPlaneMesh.material,
+            () => {
                 app.groundPlaneMesh.visible=false
             })
     }
@@ -196,22 +213,34 @@ function exitGroundView(app) {
     const cameraPositionTrack = new THREE.VectorKeyframeTrack(
         "camera.position",
         [0, 1],
-        [app.camera.position.x, app.camera.position.y, app.camera.position.z,
-        app.previousCameraPosition.x, app.previousCameraPosition.y, app.previousCameraPosition.z],
+        [
+            app.camera.position.x,
+            app.camera.position.y,
+            app.camera.position.z,
+            app.previousCameraPosition.x,
+            app.previousCameraPosition.y,
+            app.previousCameraPosition.z
+        ],
         THREE.InterpolateSmooth)
 
     const cameraQuaternionTrack = new THREE.QuaternionKeyframeTrack(
         "camera.quaternion",
         [0, 1],
-        [app.camera.quaternion.x, app.camera.quaternion.y,
-        app.camera.quaternion.z, app.camera.quaternion.w,
-        app.previousCameraQuaternion.x, app.previousCameraQuaternion.y,
-        app.previousCameraQuaternion.z, app.previousCameraQuaternion.w
+        [
+            app.camera.quaternion.x,
+            app.camera.quaternion.y,
+            app.camera.quaternion.z,
+            app.camera.quaternion.w,
+            app.previousCameraQuaternion.x,
+            app.previousCameraQuaternion.y,
+            app.previousCameraQuaternion.z,
+            app.previousCameraQuaternion.w
         ]
     )
 
     const cameraClip =
-        new THREE.AnimationClip("clip-camera", 1, [cameraPositionTrack, cameraQuaternionTrack])
+        new THREE.AnimationClip(
+            "clip-camera", 1, [cameraPositionTrack, cameraQuaternionTrack])
 
     const mixerCamera = new THREE.AnimationMixer(app.camera)
 
@@ -283,9 +312,11 @@ function updateSunPosition(app,latRad, timeMinutes, subSolarPointLatDeg) {
 }
 
 function updateSunTrackLine(app,latRad,solarAltitudeAngleDeg) {
-    app.sunTrackLineGroup.children[0] = generateSunTrackLine(latRad, solarAltitudeAngleDeg, app.isSkySphereView)
+    app.sunTrackLineGroup.children[0] = generateSunTrackLine(
+        latRad, solarAltitudeAngleDeg, app.isSkySphereView)
 
-    app.sunTrackLineGroup.children[0].rotation.z = app.isSkySphereView ? Math.PI / 2 : 0
+    app.sunTrackLineGroup.children[0].rotation.z =
+        app.isSkySphereView ? Math.PI / 2 : 0
 }
 
 export {

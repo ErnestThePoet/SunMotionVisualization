@@ -294,10 +294,12 @@
 import { autoPlayIntervalMs } from "./smv_modules/AppConstants";
 import { initWebGLData, setUpWebGL } from "./smv_modules/AppSetup";
 import {
-  toDeg,
-  toRad,
   calculateCompassWordTranslates,
 } from "./smv_modules/GeoMath";
+import {
+  toDeg,
+  toRad
+} from "./smv_modules/CommonMath";
 import * as SC from "./smv_modules/SceneControl";
 import { getHeadingWord, convertToLocalTime } from "./smv_modules/UIHelpers";
 import * as ANIMATIONS from "./smv_modules/Animations";

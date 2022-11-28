@@ -93,4 +93,4 @@ class SMVDragControls {
     }
 }
 
-export {SMVDragControls}
+export { SMVDragControls }

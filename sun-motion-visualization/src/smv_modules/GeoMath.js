@@ -1,12 +1,13 @@
-import {earthRadius, skySphereRadius,wordCenterCircleRadius,divSize,labelWidth,labelHeight} from "./AppConstants"
+import {
+    earthRadius,
+    skySphereRadius,
+    wordCenterCircleRadius,
+    divSize,
+    labelWidth,
+    labelHeight
+} from "./AppConstants"
 
-function toDeg(rad) {
-    return 180 * rad / Math.PI
-}
-
-function toRad(deg) {
-    return Math.PI * deg / 180
-}
+import { toRad } from "./CommonMath"
 
 function updateSprites(camera, sprites) {
     const posScales = [
@@ -19,7 +20,8 @@ function updateSprites(camera, sprites) {
         const camX = camera.position.x
         const camZ = camera.position.z
 
-        const z0 = Math.sqrt((earthRadius ** 2 * camX ** 2) / (camX ** 2 + camZ ** 2))
+        const z0 = Math.sqrt(
+            (earthRadius ** 2 * camX ** 2) / (camX ** 2 + camZ ** 2))
 
         const targetX = -Math.cos(i.smvLatRad) * z0 * camZ / camX
         const targetZ = Math.cos(i.smvLatRad) * z0
@@ -88,7 +90,9 @@ function calculateSunPosition(latRad, timeMinutes, subSolarPointLatDeg) {
 
         y = yRight / yLeft
         x = (yc - y) * yc / xc + xc
-        z = isNoonOrMidnight(timeMinutes) ? 0 : Math.sqrt(l ** 2 - (x - xc) ** 2 - (y - yc) ** 2)
+        z = isNoonOrMidnight(timeMinutes)
+            ? 0
+            : Math.sqrt(l ** 2 - (x - xc) ** 2 - (y - yc) ** 2)
     }
 
     if (timeMinutes < 12 * 60) {
@@ -117,7 +121,8 @@ function calculateSunRiseSetPosition(latRad, subSolarPointLatDeg) {
 
     if (Math.abs(latRad - halfPi) > floatEps
         && Math.abs(latRad + halfPi) > floatEps
-        && Math.abs(latRad) < Math.abs(Math.PI / 2 - Math.abs(toRad(subSolarPointLatDeg)))) {
+        && Math.abs(latRad) < Math.abs(
+            Math.PI / 2 - Math.abs(toRad(subSolarPointLatDeg)))) {
 
         const deltaL = 0 - latRad
 
@@ -191,8 +196,6 @@ function calculateCompassWordTranslates(currentHeadingRad) {
 }
 
 export {
-    toDeg,
-    toRad,
     updateSprites,
     calculateSunPosition,
     calculateSunRiseSetPosition,

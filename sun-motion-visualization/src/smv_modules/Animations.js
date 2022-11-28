@@ -52,4 +52,11 @@ function hideGroundPlane(material, completed = () => { }) {
     })
 }
 
-export{showCompass,hideCompass,showAbout,hideAbout,showGroundPlane,hideGroundPlane}
+export {
+    showCompass,
+    hideCompass,
+    showAbout,
+    hideAbout,
+    showGroundPlane,
+    hideGroundPlane
+}

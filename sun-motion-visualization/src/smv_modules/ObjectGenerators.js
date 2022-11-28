@@ -1,7 +1,15 @@
 import * as THREE from "three"
 
-import { toRad,calculateSunPosition,calculateSunRiseSetPosition } from "./GeoMath"
-import { hRiseSetLine, sunTrackDistanceScale, modelPath } from "./AppConstants"
+import {
+    calculateSunPosition,
+    calculateSunRiseSetPosition
+} from "./GeoMath"
+import { toRad } from "./CommonMath"
+import {
+    hRiseSetLine,
+    sunTrackDistanceScale,
+    modelPath
+} from "./AppConstants"
 
 function generateLatLine(earthRadius, latDeg, color, isDashed) {
     const curve = new THREE.EllipseCurve(
@@ -15,7 +23,8 @@ function generateLatLine(earthRadius, latDeg, color, isDashed) {
         Math.PI / 2
     )
 
-    const geometry = new THREE.BufferGeometry().setFromPoints(curve.getPoints(100))
+    const geometry = new THREE.BufferGeometry()
+        .setFromPoints(curve.getPoints(100))
 
     geometry.rotateX(Math.PI / 2)
     geometry.translate(0, earthRadius * Math.sin(toRad(latDeg)), 0)
@@ -24,7 +33,8 @@ function generateLatLine(earthRadius, latDeg, color, isDashed) {
     let material = undefined
 
     if (isDashed) {
-        material = new THREE.LineDashedMaterial({ color: color, dashSize: 3, gapSize: 2 })
+        material = new THREE.LineDashedMaterial(
+            { color: color, dashSize: 3, gapSize: 2 })
     }
     else {
         material = new THREE.LineBasicMaterial({ color: color })
@@ -88,20 +98,28 @@ function generateLatData(earthRadius) {
 
     for (const i in lats) {
         latGroup.add(generateLatLine(earthRadius, lats[i], colors[i], isDashed[i]))
-        spriteGroup.add(generateLatSprite(latsForSprites[i], i, spriteTextureNames[i], 0, scaleXToYs[i]))
-        spriteGroup.add(generateLatSprite(latsForSprites[i], i, spriteTextureNames[i], 1, scaleXToYs[i]))
+        spriteGroup.add(generateLatSprite(
+            latsForSprites[i], i, spriteTextureNames[i], 0, scaleXToYs[i]))
+        spriteGroup.add(generateLatSprite(
+            latsForSprites[i], i, spriteTextureNames[i], 1, scaleXToYs[i]))
     }
 
     return new THREE.Group().add(latGroup, spriteGroup)
 }
 
-function generateSunTrackLine(latRad, subSolarPointLatDeg, addRiseSet = false, pointCount = 100, lineColor = 0xffffff) {
+function generateSunTrackLine(
+    latRad,
+    subSolarPointLatDeg,
+    addRiseSet = false,
+    pointCount = 100,
+    lineColor = 0xffffff) {
 
     const points = []
     for (let i = 0; i < pointCount; i++) {
         const timeMinutes = 24 * 60 * i / pointCount
 
-        const pointPosition = calculateSunPosition(latRad, timeMinutes, subSolarPointLatDeg)
+        const pointPosition = calculateSunPosition(
+            latRad, timeMinutes, subSolarPointLatDeg)
 
         points.push(
             new THREE.Vector3(
@@ -116,19 +134,24 @@ function generateSunTrackLine(latRad, subSolarPointLatDeg, addRiseSet = false, p
     const trackLine = new THREE.LineLoop(geometry, material)
 
     if (addRiseSet) {
-        const riseSetPosition = calculateSunRiseSetPosition(latRad, subSolarPointLatDeg)
+        const riseSetPosition = calculateSunRiseSetPosition(
+            latRad, subSolarPointLatDeg)
 
         const rsGeometry = new THREE.BufferGeometry().setFromPoints([
-            new THREE.Vector3(hRiseSetLine, riseSetPosition[0], riseSetPosition[1]),
-            new THREE.Vector3(hRiseSetLine, riseSetPosition[2], riseSetPosition[3])
+            new THREE.Vector3(
+                hRiseSetLine, riseSetPosition[0], riseSetPosition[1]),
+            new THREE.Vector3(
+                hRiseSetLine, riseSetPosition[2], riseSetPosition[3])
         ])
 
-        const rsMaterial = new THREE.LineDashedMaterial({ color: 0xff0000, dashSize: 10, gapSize: 5 })
+        const rsMaterial = new THREE.LineDashedMaterial(
+            { color: 0xff0000, dashSize: 10, gapSize: 5 })
 
-        trackLine.add(new THREE.Line(rsGeometry, rsMaterial).computeLineDistances())
+        trackLine.add(new THREE.Line(rsGeometry, rsMaterial)
+            .computeLineDistances())
     }
 
     return trackLine
 }
 
-export{generateLatData,generateSunTrackLine}
+export { generateLatData, generateSunTrackLine }

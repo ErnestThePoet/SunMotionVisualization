@@ -18,7 +18,7 @@ const sunTrackDistanceScale = 1
 const modelPath = "./static/"
 
 // orthographic camera horizontal size
-const cameraOuterHorizontalSize = isMobilePhoneBrowser()?150:300
+const cameraOuterHorizontalSize = isMobilePhoneBrowser() ? 150 : 300
 
 // local time autoplay interval in ms
 const autoPlayIntervalMs = 20
