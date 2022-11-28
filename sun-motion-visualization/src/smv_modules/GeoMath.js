@@ -9,6 +9,9 @@ import {
 
 import { toRad } from "./CommonMath"
 
+const floatEps = 0.0001
+const halfPi = Math.PI / 2
+
 function updateSprites(camera, sprites) {
     const posScales = [
         1.2, 1.2, 1.25, 1.3,
@@ -41,55 +44,36 @@ function updateSprites(camera, sprites) {
 }
 
 function calculateSunPosition(latRad, timeMinutes, subSolarPointLatDeg) {
-    const floatEps = 0.0001
-    const D = 23.48159662 // original value divided by scale 100000 to ensure precision
-    const halfPi = Math.PI / 2
-
     const s = toRad(subSolarPointLatDeg)
-    const d = D * Math.cos(halfPi - s)
-    const l = D * Math.sin(halfPi - s)
-    const cosAngle = Math.cos(Math.PI * timeMinutes / (24 * 30))
+    const d = Math.sin(s)
+    const l = Math.cos(s)
+
+    const sinAlpha = Math.sin(latRad)
+    const cosAlpha = Math.cos(latRad)
+    const cosTheta = Math.cos(Math.PI * timeMinutes / (24 * 30))
 
     let x = 0
     let y = 0
     let z = 0
 
-    // equator
-    if (Math.abs(latRad) <= floatEps) {
-        x = -l * cosAngle
-        y = d
-        z = isNoonOrMidnight(timeMinutes) ? 0 : Math.sqrt(l ** 2 - x ** 2)
-    }
     // 90N
-    else if (Math.abs(latRad - halfPi) <= floatEps) {
+    if (Math.abs(latRad - halfPi) <= floatEps) {
         x = d
-        y = l * cosAngle
+        y = l * cosTheta
         z = isNoonOrMidnight(timeMinutes) ? 0 : Math.sqrt(l ** 2 - y ** 2)
     }
     // 90S
     else if (Math.abs(latRad + halfPi) <= floatEps) {
         x = -d
-        y = -l * cosAngle
+        y = -l * cosTheta
         z = isNoonOrMidnight(timeMinutes) ? 0 : Math.sqrt(l ** 2 - y ** 2)
     }
     else {
-        const deltaL = 0 - latRad
+        const xc = d * sinAlpha
+        const yc = d * cosAlpha
 
-        let yc = Math.sqrt((d ** 2) / (Math.tan(deltaL) ** 2 + 1))
-        if (subSolarPointLatDeg < 0) {
-            yc = -yc
-        }
-
-        const xc = -Math.tan(deltaL) * yc
-
-        const xk = -Math.sqrt((l ** 2 * yc ** 2) / (yc ** 2 + xc ** 2)) + xc
-        const yk = (xc - xk) * xc / yc + yc
-
-        // const yLeft = yk - yc - yc * (xk - xc) / xc
-        // const yRight = l ** 2 * cosAngle - yc ** 2 * (xk - xc) / xc + yc * (yk - yc)
-
-        y = (l ** 2 * xc * cosAngle) / (xc * yk - xk * yc) + yc
-        x = (yc - y) * yc / xc + xc
+        x = -l * cosAlpha * cosTheta + xc
+        y = (xc - x) * Math.tan(latRad) + yc
         z = isNoonOrMidnight(timeMinutes)
             ? 0
             : Math.sqrt(l ** 2 - (x - xc) ** 2 - (y - yc) ** 2)
@@ -99,19 +83,16 @@ function calculateSunPosition(latRad, timeMinutes, subSolarPointLatDeg) {
         z = -z
     }
 
-    const finalScale = skySphereRadius / D
-    return [x * finalScale, y * finalScale, z * finalScale]
-
+    return [x * skySphereRadius, y * skySphereRadius, z * skySphereRadius]
 }
 
 function calculateSunRiseSetPosition(latRad, subSolarPointLatDeg) {
-    const floatEps = 0.0001
-    const D = 23.48159662 // original value divided by scale 100000 to ensure precision
-    const halfPi = Math.PI / 2
-
     const s = toRad(subSolarPointLatDeg)
-    const d = D * Math.cos(halfPi - s)
-    const l = D * Math.sin(halfPi - s)
+    const d = Math.sin(s)
+    const l = Math.cos(s)
+
+    const sinAlpha = Math.sin(latRad)
+    const cosAlpha = Math.cos(latRad)
 
     let sunriseY = 0
     let sunriseZ = 0
@@ -124,26 +105,18 @@ function calculateSunRiseSetPosition(latRad, subSolarPointLatDeg) {
         && Math.abs(latRad) < Math.abs(
             Math.PI / 2 - Math.abs(toRad(subSolarPointLatDeg)))) {
 
-        const deltaL = 0 - latRad
-
-        let yc = Math.sqrt((d ** 2) / (Math.tan(deltaL) ** 2 + 1))
-        if (subSolarPointLatDeg < 0) {
-            yc = -yc
-        }
-
-        const xc = -Math.tan(deltaL) * yc
+        const xc = d * sinAlpha
+        const yc = d * cosAlpha
 
         sunriseY = sunsetY = xc ** 2 / yc + yc
 
         sunriseZ = -Math.sqrt(l ** 2 - xc ** 2 - xc ** 4 / yc ** 2)
         sunsetZ = -sunriseZ
 
-        const finalScale = skySphereRadius / D
-
-        sunriseY *= finalScale
-        sunriseZ *= finalScale
-        sunsetY *= finalScale
-        sunsetZ *= finalScale
+        sunriseY *= skySphereRadius
+        sunriseZ *= skySphereRadius
+        sunsetY *= skySphereRadius
+        sunsetZ *= skySphereRadius
     }
 
     return [sunriseY, sunriseZ, sunsetY, sunsetZ]
