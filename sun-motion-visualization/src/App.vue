@@ -254,7 +254,7 @@
     </div>
 
     <div v-show="isAboutShow" class="div-about-wrapper" style="z-index: 50">
-      高中地理：太阳视运动可视化 ——献给我的母校山东省实验中学 (版本v3.2.9)<br />
+      高中地理：太阳视运动可视化 ——献给我的母校山东省实验中学 (版本v3.3.0)<br />
       软件作者：崔子健(Ernest Cui)<br />
       作者单位：哈尔滨工业大学计算学部<br />
       作者联系方式：ecuiships@126.com<br />
