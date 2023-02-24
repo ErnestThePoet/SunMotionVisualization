@@ -14,6 +14,9 @@ class SMVDragControls {
 
         this._isMouseDown = false
 
+        this._previousPageX = 0
+        this._previousPageY = 0
+
         domElement.addEventListener("wheel", e => {
             if (!this.enabled) {
                 return
@@ -39,8 +42,10 @@ class SMVDragControls {
             camera.updateProjectionMatrix()
         })
 
-        domElement.addEventListener("pointerdown", () => {
+        domElement.addEventListener("pointerdown", e => {
             this._isMouseDown = true
+            this._previousPageX = e.pageX
+            this._previousPageY = e.pageY
         })
 
         domElement.addEventListener("pointerup", () => {
@@ -53,7 +58,13 @@ class SMVDragControls {
             }
 
             if (this._isMouseDown) {
-                const scaledMoveX = e.movementX * this.moveScale * 0.01
+                const movementX = e.pageX - this._previousPageX
+                const movementY = e.pageY - this._previousPageY
+
+                this._previousPageX = e.pageX
+                this._previousPageY = e.pageY
+
+                const scaledMoveX = movementX * this.moveScale * 0.01
                 // rotation.x limited within [0,2Pi)
                 if (camera.rotation.x - scaledMoveX < 0) {
                     camera.rotation.x = Math.PI * 2 + camera.rotation.x - scaledMoveX
@@ -69,7 +80,7 @@ class SMVDragControls {
 
                 const halfPi = Math.PI / 2
 
-                const scaledMoveY = e.movementY * this.moveScale * 0.01
+                const scaledMoveY = movementY * this.moveScale * 0.01
                 // rotation.y limited within [-Pi/2,Pi/2]
                 if (camera.rotation.y + scaledMoveY > halfPi) {
                     camera.rotation.y = halfPi
